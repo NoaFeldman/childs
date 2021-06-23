@@ -73,7 +73,7 @@ def addUc(qubit: int):
             for i in range(int(fullPhase / 2)):
                 addNode(wire, option='dagger')
     global outPhase
-    outPhase += 4
+    outPhase += 0
 
 def addCnot(control: int, target: int):
     for wire in range(2**n):
@@ -110,8 +110,8 @@ def removeTrails():
 
 addUc(0)
 addCnot(0, 1)
-midWiresLength = fullPhase
-circleWireLength = fullPhase - outPhase % fullPhase
+midWiresLength = fullPhase - outPhase % fullPhase
+circleWireLength = 5 # fullPhase
 circuitSize = sum(circuitNodes)
 daggerSize = sum(daggerNodes)
 nodesNum = circuitSize + daggerSize + midWiresLength * 2**n + circleWireLength
@@ -149,9 +149,10 @@ H[start + circleWireLength - 1, 0] = 1
 H = H + np.transpose(H)
 removeTrails()
 [w, v] = np.linalg.eigh(H)
-# G = nx.from_numpy_matrix(H)
-# nx.draw(G, with_labels=True)
+G = nx.from_numpy_matrix(H)
+nx.draw(G, with_labels=True)
 
 tst = np.round(np.array([1/(np.arccos(val / 2) / np.pi) for val in w[np.abs(w) < 2]]), 4) - 4
+f = np.where(tst == 4)
 b = 1
 plt.show()
