@@ -2,7 +2,7 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
-outPhase = 0
+outPhase = 1
 n = 2
 circuitNodes = [1 for i in range(2**n)]
 circuitEdges = []
@@ -73,7 +73,7 @@ def addUc(qubit: int):
             for i in range(int(fullPhase / 2)):
                 addNode(wire, option='dagger')
     global outPhase
-    outPhase += 0
+    outPhase += 1
 
 def addCnot(control: int, target: int):
     for wire in range(2**n):
@@ -111,7 +111,7 @@ def removeTrails():
 addUc(0)
 addCnot(0, 1)
 midWiresLength = fullPhase - outPhase % fullPhase
-circleWireLength = 5 # fullPhase
+circleWireLength = 6
 circuitSize = sum(circuitNodes)
 daggerSize = sum(daggerNodes)
 nodesNum = circuitSize + daggerSize + midWiresLength * 2**n + circleWireLength
@@ -153,6 +153,7 @@ G = nx.from_numpy_matrix(H)
 nx.draw(G, with_labels=True)
 
 tst = np.round(np.array([1/(np.arccos(val / 2) / np.pi) for val in w[np.abs(w) < 2]]), 4) - 4
-f = np.where(tst == 4)
+f = np.where(tst == 0)
+inds = np.array(list(range(8)) + list(range(16, 21)) + list(range(29, 45)) + list(range(57, 64)))
 b = 1
 plt.show()
